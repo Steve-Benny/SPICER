@@ -8,9 +8,7 @@ import 'package:spicer/farmer_dashboard/investment.dart'; // Contains ViewInvest
 import 'package:spicer/farmer_dashboard/pre_booking.dart'; // Contains PreBookingsPage
 import 'package:spicer/farmer_dashboard/farmer_profile.dart'; // Contains FarmerProfilePage
 import 'package:spicer/farmer_dashboard/sell_spices.dart'; // Contains SellSpicesPage
-import 'package:spicer/farmer_dashboard/tarceability.dart'; // Contains TraceabilityPage
-import 'package:spicer/login/farmer_login_page.dart';
-import 'package:spicer/farmer_dashboard/farmer_listings_page.dart'; // Used by Total Listings Metric
+import 'package:spicer/farmer_dashboard/tarceability.dart'; // Contains TraceabilityPage // Used by Total Listings Metric
 // We need the actual class names to be accessible.
 
 class FarmerDashboardPage extends StatelessWidget {

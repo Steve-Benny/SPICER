@@ -1,15 +1,14 @@
 // lib/customer_dashboard_page.dart
 
 import 'package:flutter/material.dart';
-
-// --- Placeholder Page Imports ---
-// NOTE: We'll need to create these destination pages later!
-class MarketplacePage extends StatelessWidget { const MarketplacePage({super.key}); @override Widget build(BuildContext context) => const Placeholder(child: Center(child: Text('Marketplace Page')));}
-class PreBookingCustomerPage extends StatelessWidget { const PreBookingCustomerPage({super.key}); @override Widget build(BuildContext context) => const Placeholder(child: Center(child: Text('Pre-Bookings Page')));}
-class InvestmentOpportunitiesPage extends StatelessWidget { const InvestmentOpportunitiesPage({super.key}); @override Widget build(BuildContext context) => const Placeholder(child: Center(child: Text('Investment Opportunities Page')));}
-class CustomerTraceabilityPage extends StatelessWidget { const CustomerTraceabilityPage({super.key}); @override Widget build(BuildContext context) => const Placeholder(child: Center(child: Text('Customer Traceability Page')));}
-class ReviewsPage extends StatelessWidget { const ReviewsPage({super.key}); @override Widget build(BuildContext context) => const Placeholder(child: Center(child: Text('Reviews & Ratings Page')));}
-class CustomerProfilePage extends StatelessWidget { const CustomerProfilePage({super.key}); @override Widget build(BuildContext context) => const Placeholder(child: Center(child: Text('Customer Profile Page')));}
+import 'package:spicer/customer_dashboard/cart_icon.dart';
+import 'package:spicer/customer_dashboard/customer_buy_spices.dart';
+import 'package:spicer/customer_dashboard/customer_investment.dart';
+import 'package:spicer/customer_dashboard/customer_profile.dart';
+import 'package:spicer/customer_dashboard/customer_review.dart';
+import 'package:spicer/customer_dashboard/customer_traceability.dart';
+import 'package:spicer/customer_dashboard/cutomer_pre_booking.dart';
+import 'package:spicer/customer_dashboard/track_orders.dart';
 
 
 class CustomerDashboardPage extends StatelessWidget {
@@ -29,8 +28,9 @@ class CustomerDashboardPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Navigate to Cart')),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartPage()), // Navigates to CartPage
               );
             },
             tooltip: 'Cart',
@@ -41,7 +41,7 @@ class CustomerDashboardPage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const CustomerProfilePage()),
+                MaterialPageRoute(builder: (context) => const CustomerProfilePage()), // Navigates to CustomerProfilePage
               );
             },
             tooltip: 'Profile',
@@ -54,14 +54,27 @@ class CustomerDashboardPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // Welcome Section
-            const Text(
-              'Welcome, Customer Name',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF3A5EB5)),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              'Explore authentic spices, pre-book crops, and invest in sustainable farming.',
-              style: TextStyle(fontSize: 16, color: Colors.black54),
+            InkWell( // Added InkWell to make Welcome section clickable to Profile
+              onTap: () {
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CustomerProfilePage()),
+                );
+              },
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Welcome, Customer Name',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF3A5EB5)),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'Explore authentic spices, pre-book crops, and invest in sustainable farming.',
+                    style: TextStyle(fontSize: 16, color: Colors.black54),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 25),
 
@@ -96,7 +109,7 @@ class CustomerDashboardPage extends StatelessWidget {
                   title: 'Pre-Book Crops',
                   subtitle: 'Fund a harvest and secure your supply.',
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const PreBookingCustomerPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PreBookingCustomerPage()));
                   },
                   color: Colors.orange,
                 ),
@@ -132,21 +145,19 @@ class CustomerDashboardPage extends StatelessWidget {
                   title: 'Reviews & Ratings',
                   subtitle: 'Rate farmers and spice quality.',
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ReviewsPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ReviewsRatingsPage()));
                   },
                   color: Colors.redAccent,
                 ),
 
-                // F6 (Added Extra): Track Orders
+                // F6: Track Orders
                 _buildDashboardCard(
                   context,
                   icon: Icons.delivery_dining,
                   title: 'Track Orders',
                   subtitle: 'View your purchase and pre-booking status.',
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Navigate to Order History')),
-                    );
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TrackOrdersPage()));
                   },
                   color: Colors.blueAccent,
                 ),
@@ -161,26 +172,26 @@ class CustomerDashboardPage extends StatelessWidget {
   // --- Reusable Widget Builders ---
 
   Widget _buildKeyMetricsRow() {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         _MetricCard(
           label: 'Spices Purchased',
           value: '45 kg',
           icon: Icons.shopping_bag,
-          color: Colors.blue,
+          color: Colors.blue, onTap: () {  },
         ),
         _MetricCard(
           label: 'Active Investments',
           value: '3',
           icon: Icons.trending_up,
-          color: Colors.green,
+          color: Colors.green, onTap: () {  },
         ),
         _MetricCard(
           label: 'Total Orders',
           value: '12',
           icon: Icons.local_shipping,
-          color: Colors.purple,
+          color: Colors.purple, onTap: () {  },
         ),
       ],
     );
@@ -239,7 +250,7 @@ class _MetricCard extends StatelessWidget {
     required this.value,
     required this.icon,
     required this.color,
-    this.onTap,
+    required this.onTap,
   });
 
   @override

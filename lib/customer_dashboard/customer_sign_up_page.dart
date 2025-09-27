@@ -30,29 +30,6 @@ class _CustomerSignUpPageState extends State<CustomerSignUpPage> {
     super.dispose();
   }
 
-  void _signUp() {
-    if (_formKey.currentState!.validate() && _acceptTerms) {
-      // 1. Collect Data
-      
-      // 2. TODO: Implement Firebase Auth createUserWithEmailAndPassword() here
-      // 3. TODO: Write farmer profile data to Firestore/Database
-
-      // Show success and navigate
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Customer account created successfully!')),
-      );
-
-      // Navigate to Dashboard after successful sign-up
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const CustomerDashboardPage()),
-      );
-    } else if (!_acceptTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('You must accept the terms and conditions.')),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:spicer/customer_dashboard/customer_dashboard.dart';
 import 'package:spicer/customer_dashboard/customer_sign_up_page.dart';
-import 'package:spicer/farmer_dashboard/farmer_sign_up_page.dart';
 import 'package:spicer/login/login_page.dart';
 import 'package:spicer/login/login_widgets.dart';
 

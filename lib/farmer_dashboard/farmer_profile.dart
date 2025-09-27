@@ -245,7 +245,7 @@ class FarmerProfilePage extends StatelessWidget {
           if (_activeCrops.isEmpty)
             const Text('No crops currently listed for sale.', style: TextStyle(color: Colors.grey)),
             
-          ..._activeCrops.map((crop) => _buildCropListingTile(crop)).toList(),
+          ..._activeCrops.map((crop) => _buildCropListingTile(crop)),
           
           const SizedBox(height: 10),
           Center(
