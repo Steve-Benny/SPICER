@@ -1,12 +1,17 @@
-// lib/farmer_dashboard_page.dart
+// lib/farmer_dashboard_page.dart (CORRECTED)
 
 import 'package:flutter/material.dart';
-import 'package:spicer/farmer_dashboard/communication.dart';
-import 'package:spicer/farmer_dashboard/investment.dart';
-import 'package:spicer/farmer_dashboard/pre_booking.dart';
-import 'package:spicer/farmer_dashboard/sell_spices.dart';
-import 'package:spicer/farmer_dashboard/tarceability.dart';
+// Note: Ensure these imports match your new file structure and correct class names
+import 'package:spicer/farmer_dashboard/communication.dart'; // Contains MessagingCenterPage
+import 'package:spicer/farmer_dashboard/farmer_listings_page.dart';
+import 'package:spicer/farmer_dashboard/investment.dart'; // Contains ViewInvestmentsPage
+import 'package:spicer/farmer_dashboard/pre_booking.dart'; // Contains PreBookingsPage
+import 'package:spicer/farmer_dashboard/farmer_profile.dart'; // Contains FarmerProfilePage
+import 'package:spicer/farmer_dashboard/sell_spices.dart'; // Contains SellSpicesPage
+import 'package:spicer/farmer_dashboard/tarceability.dart'; // Contains TraceabilityPage
 import 'package:spicer/login/farmer_login_page.dart';
+import 'package:spicer/farmer_dashboard/farmer_listings_page.dart'; // Used by Total Listings Metric
+// We need the actual class names to be accessible.
 
 class FarmerDashboardPage extends StatelessWidget {
   const FarmerDashboardPage({super.key});
@@ -19,24 +24,17 @@ class FarmerDashboardPage extends StatelessWidget {
           'Farmer Dashboard',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pushReplacement( // Use pushReplacement to remove InitialPage from stack
-                  context,
-                  MaterialPageRoute(builder: (context) => const FarmerLoginPage()));
-                  },
-        ),
+        
         backgroundColor: Colors.green,
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              // TODO: Implement Logout Logic
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Profile.')),
+              // CORRECTED NAVIGATION: Just push the Profile Page
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FarmerProfilePage()), // Corrected class name
               );
-              Navigator.of(context).popUntil((route) => route.isFirst);
             },
             tooltip: 'Profile',
           ),
@@ -47,29 +45,42 @@ class FarmerDashboardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Welcome Section
-            const Text(
-              'Welcome, [Farmer Name]',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              'Manage your listings, investments, and community connections.',
-              style: TextStyle(fontSize: 16, color: Colors.black54),
+            // Welcome Section (Use InkWell to make it clickable to profile)
+            InkWell(
+              onTap: () {
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FarmerProfilePage()),
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const <Widget>[
+                  Text(
+                    'Welcome, [Farmer Name]',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'Manage your listings, investments, and community connections.',
+                    style: TextStyle(fontSize: 16, color: Colors.black54),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 25),
 
             // Key Metrics (Placeholder for quick stats)
-            _buildKeyMetricsRow(),
+            _buildKeyMetricsRow(context), // Pass context here for navigation
             const SizedBox(height: 30),
 
             // Main Dashboard Features Grid
             GridView.count(
-              crossAxisCount: 2, // Two cards per row
+              crossAxisCount: 2,
               crossAxisSpacing: 16.0,
               mainAxisSpacing: 16.0,
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(), // Important for SingleChildScrollView
+              physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                 // E1: Sell Spices
                 _buildDashboardCard(
@@ -78,10 +89,9 @@ class FarmerDashboardPage extends StatelessWidget {
                   title: 'Add Spices',
                   subtitle: 'Register a spice you planted.',
                   onTap: () {
-                    // E1a & E1b: List a New Spice, Set Price & Quantity
                     Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SellSpicesPage()),
+                      context,
+                      MaterialPageRoute(builder: (context) => const SellSpicesPage()), // Added const
                     );
                   },
                   color: Colors.lightGreen,
@@ -94,12 +104,11 @@ class FarmerDashboardPage extends StatelessWidget {
                   title: 'Pre-Bookings',
                   subtitle: 'Review and fulfill pre-booked orders.',
                   onTap: () {
-                 // Navigate to the new PreBookingsPage
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PreBookingsPage()),
-                  );
-                 },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PreBookingsPage()), // Added const
+                    );
+                  },
                   color: Colors.orange,
                 ),
 
@@ -110,12 +119,11 @@ class FarmerDashboardPage extends StatelessWidget {
                   title: 'View Investments',
                   subtitle: 'See upfront capital from consumers.',
                   onTap: () {
-    // Navigate to the new ViewInvestmentsPage
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ViewInvestmentsPage()),
-    );
-  },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ViewInvestmentsPage()), // Added const
+                    );
+                  },
                   color: Colors.blueAccent,
                 ),
 
@@ -125,13 +133,12 @@ class FarmerDashboardPage extends StatelessWidget {
                   icon: Icons.qr_code_scanner,
                   title: 'Traceability',
                   subtitle: 'Scan and log batch movements.',
-                  onTap: ()  {
-                   // Navigate to the new ViewInvestmentsPage
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TraceabilityPage()),
-                  );
-                },
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const TraceabilityPage()), // Added const
+                    );
+                  },
                   color: Colors.teal,
                 ),
 
@@ -142,12 +149,11 @@ class FarmerDashboardPage extends StatelessWidget {
                   title: 'Messaging Center',
                   subtitle: 'Communicate with buyers/investors.',
                   onTap: () {
-                  // Navigate to the new ViewInvestmentsPage
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MessagingCenterPage()),
-                );
-                },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MessagingCenterPage()), // Added const
+                    );
+                  },
                   color: Colors.redAccent,
                 ),
               ],
@@ -160,8 +166,9 @@ class FarmerDashboardPage extends StatelessWidget {
 
   // --- Reusable Widget Builders ---
 
-  Widget _buildKeyMetricsRow() {
-    return const Row(
+  // Needs Context passed to enable MetricCard onTap navigation
+  Widget _buildKeyMetricsRow(BuildContext context) {
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         _MetricCard(
@@ -169,18 +176,36 @@ class FarmerDashboardPage extends StatelessWidget {
           value: '4',
           icon: Icons.list_alt,
           color: Colors.blue,
+          onTap: () { // Navigation to Listings Page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FarmerListingsPage()),
+            );
+          },
         ),
         _MetricCard(
           label: 'Pending Orders',
           value: '3',
           icon: Icons.pending_actions,
           color: Colors.orange,
+          onTap: () {
+             Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PreBookingsPage()),
+            );
+          },
         ),
         _MetricCard(
           label: 'Total Earned',
           value: '₹12,500',
           icon: Icons.currency_rupee,
           color: Colors.green,
+          onTap: () {
+            // Placeholder action
+             ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Viewing Earnings History')),
+            );
+          },
         ),
       ],
     );
@@ -226,41 +251,46 @@ class FarmerDashboardPage extends StatelessWidget {
   }
 }
 
-// Separate Widget for Metrics
+// Separate Widget for Metrics (Modified to accept onTap)
 class _MetricCard extends StatelessWidget {
   final String label;
   final String value;
   final IconData icon;
   final Color color;
+  final VoidCallback? onTap;
 
   const _MetricCard({
     required this.label,
     required this.value,
     required this.icon,
     required this.color,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Icon(icon, size: 30, color: color),
-            const SizedBox(height: 4),
-            Text(
-              value,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12, color: Colors.black54),
-            ),
-          ],
+    return InkWell( // Added InkWell to make it clickable
+      onTap: onTap,
+      child: Card(
+        elevation: 3,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              Icon(icon, size: 30, color: color),
+              const SizedBox(height: 4),
+              Text(
+                value,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 12, color: Colors.black54),
+              ),
+            ],
+          ),
         ),
       ),
     );

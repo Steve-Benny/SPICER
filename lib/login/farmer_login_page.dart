@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:spicer/farmer_dashboard/farmer_dashboard.dart';
-import 'package:spicer/login/farmer_sign_up_page.dart';
+import 'package:spicer/farmer_dashboard/farmer_sign_up_page.dart';
 import 'package:spicer/login/login_page.dart';
 import 'package:spicer/login/login_widgets.dart';
 
@@ -202,7 +202,7 @@ class _LoginFieldsState extends State<_LoginFields> {
             ),
             child: const Text('Log In', style: TextStyle(fontSize: 18)),
           ),
-
+          const SizedBox(height: 20),
           // 4. Sign Up Link
           TextButton(
             onPressed: () {
